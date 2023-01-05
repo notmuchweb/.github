@@ -19,7 +19,6 @@ notmuch-web is a webmail user agent built on top of notmuch for linux and macos 
   - [Technologies used](#technologies-used)
 - [Join the development](#join-the-development)
   - [Build and run](#build-and-run)
-    - [Known issue](#known-issue)
   - [Contribute](#contribute)
 
 ## Requirements
@@ -244,7 +243,17 @@ echo -e "password" | gpg2  --symmetric  -o ~/mail/zimbra.inria.fr.gpg
 
 ```
 
-For getting the certificate for your server, you can follow the [following guide](http://fengxia.co.s3-website-us-east-1.amazonaws.com/mbsync%20mu4e%20email.html).
+For getting the certificate for your server, you can follow run the following command:
+
+```bash
+# first parameter is the imap server name
+# second parameter is the file name where you will save the certificate
+# it must be consistent with the file $HOME/.mbsyncrc 
+
+mbsync-get-cert zimbra.inria.fr > /home/barais/mail/zimbra.pem
+```
+
+Your `$HOME/.mbsyncrc` will be something like that
 
 ```txt
 IMAPAccount  main
@@ -263,8 +272,8 @@ Inbox /home/barais/mail/IRISA/INBOX
 Flatten .
 
 Channel main
-Master :main-remote:
-Slave :main-local:
+Far :main-remote:
+Near :main-local:
 Patterns INBOX Sent Drafts Trash Archives
 Create Both
 Sync Full
@@ -273,6 +282,9 @@ CopyArrivalDate yes
 ```
 
 ### Configure msmtp
+
+Your `$HOME/.mbsyncrc` will be something like that
+
 
 ```txt
 defaults
@@ -464,10 +476,6 @@ cp ../front/dist/front/* public/
 # To run the app
 npm run prod
 ```
-
-### Known issue
-
-I had to install libxkbfile-dev
 
 ## Contribute
 
